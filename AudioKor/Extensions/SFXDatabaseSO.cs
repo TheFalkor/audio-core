@@ -2,34 +2,35 @@
 
 namespace AudioKor.Extensions
 {
-    /// <summary>
-    /// Sound effect data class.
-    /// </summary>
     [System.Serializable]
     public class SoundEffect
     {
-        /// <summary>
-        /// Reference name of audio clip.
-        /// </summary>
-        [Tooltip("Reference name of audio clip. \nExample: BULLET_SHOT, PLAYER_JUMP..")]
+        [Tooltip("Sets the name that will be used to access this audio clip when calling AudioKor.\nExample: BULLET_SHOT, PLAYER_JUMP..")]
         public string soundEffectName;
 
-        /// <summary>
-        /// Audio clip file.
-        /// </summary>
         [Tooltip("Audio clip. Yep.")]
         public AudioClip audioClip;
+
+        [Space]
+
+        [Tooltip("Sets the audio clip to loop once it stops playing.")]
+        public bool loop;
+
+        [Space]
+
+        [Tooltip("Sets a factor of the sound volume.")]
+        [Range(0f, 1f)]
+        public float volume = 1f;
+
+        [Tooltip("Sets the pitch of the sound effect to make it play slower or faster.")]
+        [Range(-3f, 3f)]
+        public float pitch = 1f;
     }
 
-    /// <summary>
-    /// Scriptable Object for creating SFX Databases.
-    /// </summary>
+
     [CreateAssetMenu(fileName = "SFX Database", menuName = "AudioKor Databases/SFX Database", order = 1)]
     public class SFXDatabaseSO : ScriptableObject
     {
-        /// <summary>
-        /// Array of sound effects with a string as reference.
-        /// </summary>
         public SoundEffect[] soundEffectDatabase;
     }
 }
