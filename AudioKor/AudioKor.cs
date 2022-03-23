@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AudioKor.Interfaces;
@@ -11,13 +11,13 @@ namespace AudioKor
 
         void Start()
         {
-            
+
         }
 
 
         void Update()
         {
-        
+
         }
 
 
@@ -47,7 +47,7 @@ namespace AudioKor
         }
 
 
-    } 
+    }
 }
 
 
