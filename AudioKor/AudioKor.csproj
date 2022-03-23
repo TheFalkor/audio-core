@@ -4,9 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Unity\Unity\Projects\AudioKor\AudioKor\AudioKor.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\2020.3.29f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\2020.3.29f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 
