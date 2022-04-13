@@ -32,5 +32,18 @@ namespace AudioKor.Extensions
     public class SFXDatabaseSO : ScriptableObject
     {
         public SoundEffect[] soundEffectDatabase;
+
+        public SoundEffect GetSoundEffect(string soundEffectName)
+        {
+            foreach (SoundEffect se in soundEffectDatabase)
+            {
+                if (se.soundEffectName == soundEffectName)
+                {
+                    return se;
+                }
+            }
+
+            return null;
+        }
     }
 }

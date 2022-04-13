@@ -1,56 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AudioKor.Interfaces;
+using AudioKor.Enums;
 using AudioKor.Extensions;
+using AudioKor.Interfaces;
+using AudioKor.Structures;
 
 namespace AudioKor
 {
     public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
+        [Header("Database References")]
+        public MusicDatabaseSO musicDatabase;
+        public SFXDatabaseSO sfxDatabase;
 
-        void Start()
+        private readonly AudioTrack[] audioTracks = new AudioTrack[8];
+
+
+        private void Start()
         {
+            for (int i = 0; i < audioTracks.Length; i++)
+            {
+                AudioSource source = gameObject.AddComponent<AudioSource>();
+                audioTracks[i] = new AudioTrack(source);
+            }
+
         }
 
 
-        void Update()
+        private void Update()
         {
 
         }
 
+        public void PlayMusic(string musicName)
+        {
+            Music music = musicDatabase.GetMusic(musicName);
 
-        public void Pause()
+            foreach (AudioTrack at in audioTracks)
+            {
+                if (at.IsAvailable(music))
+                {
+                    at.Play(music);
+                    return;
+                }
+            }
+        }
+
+        public void PlayMusic(string musicName, Track track)
+        {
+            Music music = musicDatabase.GetMusic(musicName);
+
+            audioTracks[(int)track].Play(music);
+        }
+
+        public void PauseMusic()
         {
             throw new System.NotImplementedException();
         }
 
-        public void UnPause()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void Stop()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFXClip(AudioClip clip)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFXClip(AudioClip clip, float volume)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFXClip(AudioClip clip, Vector3 position)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFXClipDelayed(AudioClip clip, float delay)
+        public void PauseMusic(Track track)
         {
             throw new System.NotImplementedException();
         }
@@ -60,45 +69,6 @@ namespace AudioKor
             throw new System.NotImplementedException();
         }
 
-        public void PlaySFX(string soundEffectName, float volume)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFX(string soundEffectName, Vector3 position)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlaySFXDelayed(string soundEffectName, float delay)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayMusicClip(AudioClip music)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayMusicClip(AudioClip music, float volume)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayMusic(string musicName)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayMusic(string musicName, float volume)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void PlayMusic(string musicName, Vector3 position)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
 

@@ -32,5 +32,18 @@ namespace AudioKor.Extensions
     public class MusicDatabaseSO : ScriptableObject
     {
         public Music[] musicDatabase;
+
+        public Music GetMusic(string musicName)
+        {
+            foreach (Music m in musicDatabase)
+            {
+                if (m.musicName == musicName)
+                {
+                    return m;
+                }
+            }
+
+            return null;
+        }
     }
 }

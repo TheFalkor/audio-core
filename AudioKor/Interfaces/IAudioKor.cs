@@ -1,63 +1,37 @@
 using System.Collections;
 using UnityEngine;
+using AudioKor.Enums;
+using AudioKor.Structures;
 
 namespace AudioKor.Interfaces
 {
     public interface IAudioKor
     {
         /// <summary>
-        /// Pauses all audio components.
+        /// Starts a track that plays music.
         /// </summary>
-        public void Pause();
+        /// <param name="musicName">The music asset to be played.</param>
+        public void PlayMusic(string musicName);
 
         /// <summary>
-        /// Unpauses all audio components from a paused state. Only use in combination with Pause().
+        /// Starts a track that plays music.
         /// </summary>
-        public void UnPause();
+        /// <param name="musicName">The music asset to be played.</param>
+        /// <param name="track">The track that will be used.</param>
+        public void PlayMusic(string musicName, Track track);
 
         /// <summary>
-        /// Stops all audio components.
+        /// Pauses music and ambience playing from all tracks.
         /// </summary>
-        public void Stop();
+        public void PauseMusic();
 
         /// <summary>
-        /// Plays an AudioClip, and scales the volume by SFXVolumeScale.
+        /// Pauses music and ambience playing from one track.
         /// </summary>
-        /// <param name="clip">The audio clip to be played.</param>
-        public void PlaySFXClip(AudioClip clip);
-
-        /// <summary>
-        /// Plays an AudioClip, and scales the volume by the volume value.
-        /// </summary>
-        /// <param name="clip">The audio clip to be played.</param>
-        /// <param name="volume">The value to scale the audio clip volume.</param>
-        public void PlaySFXClip(AudioClip clip, float volume = 1.0f);
-
-        /// <summary>
-        /// Plays an AudioClip from position.
-        /// </summary>
-        /// <param name="clip">The audio clip to be played.</param>
-        /// <param name="position">The position that the audio clip will be played from.</param>
-        public void PlaySFXClip(AudioClip clip, Vector3 position);
-
-        /// <summary>
-        /// Plays an AudioClip with a set delay.
-        /// </summary>
-        /// <param name="clip">The audio clip to be played.</param>
-        /// <param name="delay">The delay in seconds until audio clip is played.</param>
-        public void PlaySFXClipDelayed(AudioClip clip, float delay);
+        /// <param name="track">The track that will be paused.</param>
+        public void PauseMusic(Track track);
 
         public void PlaySFX(string soundEffectName);
-        public void PlaySFX(string soundEffectName, float volume);
-        public void PlaySFX(string soundEffectName, Vector3 position);
-        public void PlaySFXDelayed(string soundEffectName, float delay);
-
-        public void PlayMusicClip(AudioClip music);
-        public void PlayMusicClip(AudioClip music, float volume);
-
-        public void PlayMusic(string musicName);
-        public void PlayMusic(string musicName, float volume);
-        public void PlayMusic(string musicName, Vector3 position);
     }
 }
 
