@@ -15,11 +15,17 @@ namespace AudioKorLib.Extensions
 
         [Tooltip("Sets a factor of the sound volume.")]
         [Range(0f, 1f)]
-        public float volume = 1f;
+        public float volume;
 
         [Tooltip("Sets the pitch of the sound effect to make it play slower or faster.")]
         [Range(-3f, 3f)]
-        public float pitch = 1f;
+        public float pitch;
+
+        private void Reset()
+        {
+            volume = 1;
+            pitch = 1;
+        }
     }
 
 
@@ -38,6 +44,7 @@ namespace AudioKorLib.Extensions
                 }
             }
 
+            Debug.LogWarning("AudioKor: " + soundEffectName + " could not be found in linked sfx database.");
             return null;
         }
     }

@@ -20,6 +20,9 @@ namespace AudioKorLib.Structures
         public void Play(Music music)
         {
             this.music = music;
+            source.volume = music.volume;
+            source.pitch = music.pitch;
+            source.loop = music.loop;
             source.clip = music.audioClip;
             source.Play();
         }

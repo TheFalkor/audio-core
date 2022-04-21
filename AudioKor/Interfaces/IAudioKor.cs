@@ -31,6 +31,10 @@ namespace AudioKorLib.Interfaces
         /// <param name="track">The track that will be paused.</param>
         public void PauseMusic(Track track);
 
+        /// <summary>
+        /// Plays a sound effect.
+        /// </summary>
+        /// <param name="soundEffectName">The sound effect name to be played.</param>
         public void PlaySFX(string soundEffectName);
     }
 }

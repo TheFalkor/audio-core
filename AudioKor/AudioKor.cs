@@ -13,6 +13,19 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     public MusicDatabaseSO musicDatabase;
     public SFXDatabaseSO sfxDatabase;
 
+    [Header("Settings")]
+    [Tooltip("Sets the overall volume of all audio components")]
+    [Range(0f, 1f)]
+    public float masterVolume;
+
+    [Tooltip("Sets the overall volume of all music.")]
+    [Range(0f, 1f)]
+    public float musicVolume;
+
+    [Tooltip("Sets the overall volume of all sound effects.")]
+    [Range(0f, 1f)]
+    public float sfxVolume;
+
     private readonly AudioTrack[] audioTracks = new AudioTrack[8];
 
     private AudioSource sfxSource;
@@ -72,9 +85,10 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
         SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
 
+        sfxSource.volume = soundEffect.volume;
+        sfxSource.pitch = soundEffect.pitch;
         sfxSource.PlayOneShot(soundEffect.audioClip);
     }
-
 }
 
 
