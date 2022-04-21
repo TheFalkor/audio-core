@@ -1,4 +1,4 @@
-﻿namespace AudioKor.Enums
+﻿namespace AudioKorLib.Enums
 {
     /// <summary>
     /// Used to specify which Audio Track to affect.

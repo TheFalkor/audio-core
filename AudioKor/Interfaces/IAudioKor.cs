@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
-using AudioKor.Enums;
-using AudioKor.Structures;
+using AudioKorLib.Enums;
+using AudioKorLib.Structures;
 
-namespace AudioKor.Interfaces
+namespace AudioKorLib.Interfaces
 {
     public interface IAudioKor
     {

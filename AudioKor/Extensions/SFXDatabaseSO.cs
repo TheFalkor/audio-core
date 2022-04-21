@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AudioKor.Extensions
+namespace AudioKorLib.Extensions
 {
     [System.Serializable]
     public class SoundEffect
@@ -10,11 +10,6 @@ namespace AudioKor.Extensions
 
         [Tooltip("Audio clip. Yep.")]
         public AudioClip audioClip;
-
-        [Space]
-
-        [Tooltip("Sets the audio clip to loop once it stops playing.")]
-        public bool loop;
 
         [Space]
 

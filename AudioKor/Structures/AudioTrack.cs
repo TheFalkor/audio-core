@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
-using AudioKor.Enums;
-using AudioKor.Extensions;
+using AudioKorLib.Enums;
+using AudioKorLib.Extensions;
 
-namespace AudioKor.Structures
+namespace AudioKorLib.Structures
 {
     public class AudioTrack
     {

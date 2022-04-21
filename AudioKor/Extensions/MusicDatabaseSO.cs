@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace AudioKor.Extensions
+namespace AudioKorLib.Extensions
 {
     [System.Serializable]
     public class Music
