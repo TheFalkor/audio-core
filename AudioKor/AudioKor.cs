@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AudioKorLib.Enums;
 using AudioKorLib.Extensions;
 using AudioKorLib.Interfaces;
 using AudioKorLib.Structures;
@@ -13,7 +12,7 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     public MusicDatabaseSO musicDatabase;
     public SFXDatabaseSO sfxDatabase;
 
-    [Header("Settings")]
+    [Header("Audio Settings")]
     [Tooltip("Sets the overall volume of all audio components")]
     [Range(0f, 1f)]
     public float masterVolume;
@@ -26,17 +25,30 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     [Range(0f, 1f)]
     public float sfxVolume;
 
-    private readonly AudioTrack[] audioTracks = new AudioTrack[8];
+    [Header("Product Settings")]
+    [Tooltip("Sets the amount of available music tracks to exist.")]
+    [Range(0, 8)]
+    public int musicTrackCount;
 
+    private AudioTrack[] audioTracks;
     private AudioSource sfxSource;
 
 
     private void Start()
     {
-        for (int i = 0; i < audioTracks.Length; i++)
+        audioTracks = new AudioTrack[musicTrackCount];
+        if (musicTrackCount > 0)
         {
-            AudioSource source = gameObject.AddComponent<AudioSource>();
-            audioTracks[i] = new AudioTrack(source);
+            GameObject trackParent = new GameObject("AudioKor Tracks");
+            trackParent.transform.parent = transform;
+
+            for (int i = 0; i < audioTracks.Length; i++)
+            {
+                AudioSource source = trackParent.AddComponent<AudioSource>();
+                audioTracks[i] = new AudioTrack(source);
+
+                audioTracks[i].SetVolume(masterVolume * musicVolume);
+            }
         }
 
         sfxSource = gameObject.AddComponent<AudioSource>();
@@ -51,6 +63,9 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
         Music music = musicDatabase.GetMusic(musicName);
 
+        if (music == null)
+            return;
+
         foreach (AudioTrack at in audioTracks)
         {
             if (at.IsAvailable(music))
@@ -61,9 +76,18 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         }
     }
 
-    public void PlayMusic(string musicName, Track track)
+    public void PlayMusic(string musicName, AudioKor.Track track)
     {
+        if ((int)track >= musicTrackCount)
+        {
+            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase the musicTrackCount");
+            return;
+        }
+
         Music music = musicDatabase.GetMusic(musicName);
+
+        if (music == null)
+            return;
 
         audioTracks[(int)track].Play(music);
     }
@@ -76,7 +100,7 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         }
     }
 
-    public void PauseMusic(Track track)
+    public void PauseMusic(AudioKor.Track track)
     {
         audioTracks[(int)track].PauseTrack();
     }
@@ -85,9 +109,49 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
         SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
 
-        sfxSource.volume = soundEffect.volume;
+        if (soundEffect == null)
+            return;
+
         sfxSource.pitch = soundEffect.pitch;
-        sfxSource.PlayOneShot(soundEffect.audioClip);
+        sfxSource.PlayOneShot(soundEffect.audioClip, soundEffect.volume * masterVolume * sfxVolume);
+    }
+
+    public void SetMasterVolume(float masterVolume)
+    {
+        this.masterVolume = masterVolume;
+
+        foreach (AudioTrack track in audioTracks)
+            track.SetVolume(masterVolume * musicVolume);
+
+        sfxSource.volume = masterVolume * sfxVolume;
+    }
+
+    public void SetMusicVolume(float musicVolume)
+    {
+        this.musicVolume = musicVolume;
+
+        foreach (AudioTrack track in audioTracks)
+            track.SetVolume(masterVolume * musicVolume);
+    }
+
+    public void SetSFXVolume(float sfxVolume)
+    {
+        this.sfxVolume = sfxVolume;
+    }
+
+    /// <summary>
+    /// Used to specify which Audio Track to affect.
+    /// </summary>
+    public enum Track
+    {
+        A,
+        B,
+        C,
+        D,
+        E,
+        F,
+        G,
+        H
     }
 }
 

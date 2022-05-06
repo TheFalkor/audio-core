@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using AudioKorLib.Enums;
 using AudioKorLib.Structures;
 
 namespace AudioKorLib.Interfaces
@@ -18,7 +17,7 @@ namespace AudioKorLib.Interfaces
         /// </summary>
         /// <param name="musicName">The music asset to be played.</param>
         /// <param name="track">The track that will be used.</param>
-        public void PlayMusic(string musicName, Track track);
+        public void PlayMusic(string musicName, AudioKor.Track track);
 
         /// <summary>
         /// Pauses music and ambience playing from all tracks.
@@ -29,13 +28,31 @@ namespace AudioKorLib.Interfaces
         /// Pauses music and ambience playing from one track.
         /// </summary>
         /// <param name="track">The track that will be paused.</param>
-        public void PauseMusic(Track track);
+        public void PauseMusic(AudioKor.Track track);
 
         /// <summary>
         /// Plays a sound effect.
         /// </summary>
         /// <param name="soundEffectName">The sound effect name to be played.</param>
         public void PlaySFX(string soundEffectName);
+
+        /// <summary>
+        /// Sets the general volume of all audio components.
+        /// </summary>
+        /// <param name="masterVolume">The general volume for all components.</param>
+        public void SetMasterVolume(float masterVolume);
+
+        /// <summary>
+        /// Sets the volume of all music tracks.
+        /// </summary>
+        /// <param name="musicVolume">The volume for all music tracks.</param>
+        public void SetMusicVolume(float musicVolume);
+
+        /// <summary>
+        /// Sets the volume for all sound effects.
+        /// </summary>
+        /// <param name="sfxVolume">The volume for all sound effects.</param>
+        public void SetSFXVolume(float sfxVolume);
     }
 }
 

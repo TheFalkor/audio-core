@@ -1,13 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
-using AudioKorLib.Enums;
+using AudioKorLib.Structures;
 using AudioKorLib.Extensions;
 
 namespace AudioKorLib.Structures
 {
     public class AudioTrack
     {
-        public Track track;
         public Music music;
         public AudioSource source;
 
@@ -37,9 +36,9 @@ namespace AudioKorLib.Structures
             source.UnPause();
         }
 
-        public void SetSettings(/*Settings Struct*/)
+        public void SetVolume(float volume)
         {
-
+            source.volume = music.volume * volume;
         }
 
         public bool IsAvailable(Music music)
