@@ -9,6 +9,7 @@ namespace AudioKorLib.Structures
     {
         public Music music;
         public AudioSource source;
+        public float volume;
 
 
         public AudioTrack(AudioSource source)
@@ -19,7 +20,7 @@ namespace AudioKorLib.Structures
         public void Play(Music music)
         {
             this.music = music;
-            source.volume = music.volume;
+            source.volume = music.volume * volume;
             source.pitch = music.pitch;
             source.loop = music.loop;
             source.clip = music.audioClip;
@@ -38,7 +39,9 @@ namespace AudioKorLib.Structures
 
         public void SetVolume(float volume)
         {
-            source.volume = music.volume * volume;
+            this.volume = volume;
+            if (music != null)
+                source.volume = music.volume * volume;
         }
 
         public bool IsAvailable(Music music)
