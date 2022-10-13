@@ -17,6 +17,11 @@ namespace AudioKorLib.Structures
             this.source = source;
         }
 
+        public void Tick(float deltaTime)
+        {
+            
+        }
+
         public void Play(Music music)
         {
             this.music = music;
@@ -34,7 +39,8 @@ namespace AudioKorLib.Structures
 
         public void ResumeTrack()
         {
-            source.UnPause();
+            if (music != null)
+                source.UnPause();
         }
 
         public void SetVolume(float volume)
@@ -42,6 +48,8 @@ namespace AudioKorLib.Structures
             this.volume = volume;
             if (music != null)
                 source.volume = music.volume * volume;
+            else
+                source.volume = volume;
         }
 
         public bool IsAvailable(Music music)

@@ -31,10 +31,28 @@ namespace AudioKorLib.Interfaces
         public void PauseMusic(AudioKor.Track track);
 
         /// <summary>
+        /// Resume all tracks.
+        /// </summary>
+        public void ResumeMusic();
+
+        /// <summary>
+        /// Resumes one track.
+        /// </summary>
+        /// <param name="track">The track that will be resumed.</param>
+        public void ResumeMusic(AudioKor.Track track);
+
+        /// <summary>
         /// Plays a sound effect.
         /// </summary>
         /// <param name="soundEffectName">The sound effect name to be played.</param>
         public void PlaySFX(string soundEffectName);
+
+        /// <summary>
+        /// Plays a sound effect with additional volume scale.
+        /// </summary>
+        /// <param name="soundEffectName">The sound effect name to be played.</param>
+        /// <param name="volumeScale">The volume to scale the SFX by.</param>
+        public void PlaySFX(string soundEffectName, float volumeScale);
 
         /// <summary>
         /// Sets the general volume of all audio components.
