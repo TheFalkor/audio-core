@@ -8,7 +8,7 @@ namespace AudioKorLib.Extensions
         [Tooltip("Sets the name that will be used to access this audio clip when calling AudioKor.\nExample: BULLET_SHOT, PLAYER_JUMP..")]
         public string soundEffectName;
 
-        [Tooltip("Audio clip. Yep.")]
+        [Tooltip("Audio clip.")]
         public AudioClip audioClip;
 
         [Space]
@@ -21,7 +21,7 @@ namespace AudioKorLib.Extensions
         [Range(-3f, 3f)]
         public float pitch;
 
-        private void Reset()
+        public void Reset()
         {
             volume = 1;
             pitch = 1;
@@ -33,6 +33,7 @@ namespace AudioKorLib.Extensions
     public class SFXDatabaseSO : ScriptableObject
     {
         public SoundEffect[] soundEffectDatabase;
+        private int databaseLength = 0;
 
         public SoundEffect GetSoundEffect(string soundEffectName)
         {
@@ -46,6 +47,14 @@ namespace AudioKorLib.Extensions
 
             Debug.LogWarning("AudioKor: " + soundEffectName + " could not be found in linked sfx database.");
             return null;
+        }
+
+        private void OnValidate()
+        {
+            if (soundEffectDatabase.Length > databaseLength)
+                soundEffectDatabase[^1].Reset();
+
+            databaseLength = soundEffectDatabase.Length;
         }
     }
 }

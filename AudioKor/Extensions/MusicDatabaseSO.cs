@@ -26,7 +26,7 @@ namespace AudioKorLib.Extensions
         [Range(-3f, 3f)]
         public float pitch;
 
-        private void Reset()
+        public void Reset()
         {
             loop = false;
             volume = 1;
@@ -39,6 +39,7 @@ namespace AudioKorLib.Extensions
     public class MusicDatabaseSO : ScriptableObject
     {
         public Music[] musicDatabase;
+        private int databaseLength = 0;
 
         public Music GetMusic(string musicName)
         {
@@ -52,6 +53,14 @@ namespace AudioKorLib.Extensions
 
             Debug.LogWarning("AudioKor: " + musicName + " could not be found in linked database.");
             return null;
+        }
+
+        private void OnValidate()
+        {
+            if (musicDatabase.Length > databaseLength)
+                musicDatabase[^1].Reset();
+
+            databaseLength = musicDatabase.Length;
         }
     }
 }
