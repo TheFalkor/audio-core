@@ -15,18 +15,18 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     [Header("Audio Settings")]
     [Tooltip("Sets the overall volume of all audio components")]
     [Range(0f, 1f)]
-    public float masterVolume;
-    private float currentMasterVolume;
+    public float masterVolume = 1;
+    [HideInInspector] private float currentMasterVolume;
 
     [Tooltip("Sets the overall volume of all music.")]
     [Range(0f, 1f)]
-    public float musicVolume;
-    private float currentMusicVolume;
+    public float musicVolume = 1;
+    [HideInInspector] private float currentMusicVolume;
 
     [Tooltip("Sets the overall volume of all sound effects.")]
     [Range(0f, 1f)]
-    public float sfxVolume;
-    private float currentSFXVolume;
+    public float sfxVolume = 1;
+    [HideInInspector] private float currentSFXVolume;
 
     [Header("Application Settings")]
     [Tooltip("Sets the amount of available music tracks to exist.")]
@@ -36,11 +36,11 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     [Tooltip("Prevents AudioKor from being destroyed. Will destroyed duplicate AudioKors in new scenes.")]
     public bool dontDestroyOnLoad = false;
 
-    private AudioTrack[] audioTracks;
-    private AudioSource sfxSource;
+    [HideInInspector] private AudioTrack[] audioTracks;
+    [HideInInspector] private AudioSource sfxSource;
 
-    private bool initialized = false;
-    private static AudioKor instance;
+    [HideInInspector] private bool initialized = false;
+    [HideInInspector] private static AudioKor instance;
 
 
     private void Awake()
@@ -87,6 +87,22 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
         foreach (AudioTrack at in audioTracks)
             at.Tick(Time.deltaTime);
+    }
+
+    public void SetMusic(string musicName, AudioKor.Track track)
+    {
+        if ((int)track >= musicTrackCount)
+        {
+            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            return;
+        }
+
+        Music music = musicDatabase.GetMusic(musicName);
+
+        if (music == null)
+            return;
+
+        audioTracks[(int)track].SetMusic(music);
     }
 
     public void PlayMusic(string musicName)
@@ -160,6 +176,48 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         }
 
         audioTracks[(int)track].ResumeTrack();
+    }
+
+    public void FadeInMusic(AudioKor.Track track, float duration)
+    {
+        if ((int)track >= musicTrackCount)
+        {
+            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            return;
+        }
+
+        audioTracks[(int)track].FadeIn(duration);
+    }
+    public void FadeInMusic(AudioKor.Track track, float duration, string musicName)
+    {
+        if ((int)track >= musicTrackCount)
+        {
+            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            return;
+        }
+
+        Music music = musicDatabase.GetMusic(musicName);
+
+        if (music == null)
+            return;
+
+        audioTracks[(int)track].FadeIn(duration, music);
+    }
+    public void FadeOutMusic(AudioKor.Track track, float duration)
+    {
+        if ((int)track >= musicTrackCount)
+        {
+            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            return;
+        }
+
+        audioTracks[(int)track].FadeOut(duration);
+    }
+
+    public void FadeOutAll(float duration)
+    {
+        foreach (AudioTrack at in audioTracks)
+            at.FadeOut(duration);
     }
 
     public void PlaySFX(string soundEffectName)

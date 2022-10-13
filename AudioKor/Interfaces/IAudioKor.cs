@@ -7,6 +7,13 @@ namespace AudioKorLib.Interfaces
     public interface IAudioKor
     {
         /// <summary>
+        /// Sets the music data into the track without starting it.
+        /// </summary>
+        /// <param name="musicName">The music asset to be played.</param>
+        /// <param name="track">The track that will be used.</param>
+        public void SetMusic(string musicName, AudioKor.Track track);
+
+        /// <summary>
         /// Starts a track that plays music.
         /// </summary>
         /// <param name="musicName">The music asset to be played.</param>
@@ -34,6 +41,34 @@ namespace AudioKorLib.Interfaces
         /// Resume all tracks.
         /// </summary>
         public void ResumeMusic();
+
+        /// <summary>
+        /// Fade in the track.
+        /// </summary>
+        /// <param name="track">The track that will be faded.</param>
+        /// <param name="duration">The duration of the fade.</param>
+        public void FadeInMusic(AudioKor.Track track, float duration);
+
+        /// <summary>
+        /// Set the music asset and fade in the track.
+        /// </summary>
+        /// <param name="track">The track that will be faded.</param>
+        /// <param name="duration">The duration of the fade.</param>
+        /// <param name="musicName">The music asset to be played.</param>
+        public void FadeInMusic(AudioKor.Track track, float duration, string musicName);
+
+        /// <summary>
+        /// Fade out the track.
+        /// </summary>
+        /// <param name="track">The track that will be faded.</param>
+        /// <param name="duration">The duration of the fade.</param>
+        public void FadeOutMusic(AudioKor.Track track, float duration);
+
+        /// <summary>
+        /// Fade out all available tracks.
+        /// </summary>
+        /// <param name="duration">The duration of the fade.</param>
+        public void FadeOutAll(float duration);
 
         /// <summary>
         /// Resumes one track.
