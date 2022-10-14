@@ -1,17 +1,17 @@
 using System.Collections;
 using UnityEngine;
-using AudioKorLib.Structures;
+using AudioCoreLib.Structures;
 
-namespace AudioKorLib.Interfaces
+namespace AudioCoreLib.Interfaces
 {
-    public interface IAudioKor
+    public interface IAudioCore
     {
         /// <summary>
         /// Sets the music data into the track without starting it.
         /// </summary>
         /// <param name="musicName">The music asset to be played.</param>
         /// <param name="track">The track that will be used.</param>
-        public void SetMusic(string musicName, AudioKor.Track track);
+        public void SetMusic(string musicName, AudioCore.Track track);
 
         /// <summary>
         /// Starts a track that plays music.
@@ -24,7 +24,7 @@ namespace AudioKorLib.Interfaces
         /// </summary>
         /// <param name="musicName">The music asset to be played.</param>
         /// <param name="track">The track that will be used.</param>
-        public void PlayMusic(string musicName, AudioKor.Track track);
+        public void PlayMusic(string musicName, AudioCore.Track track);
 
         /// <summary>
         /// Pauses music and ambience playing from all tracks.
@@ -35,7 +35,7 @@ namespace AudioKorLib.Interfaces
         /// Pauses music and ambience playing from one track.
         /// </summary>
         /// <param name="track">The track that will be paused.</param>
-        public void PauseMusic(AudioKor.Track track);
+        public void PauseMusic(AudioCore.Track track);
 
         /// <summary>
         /// Resume all tracks.
@@ -47,7 +47,7 @@ namespace AudioKorLib.Interfaces
         /// </summary>
         /// <param name="track">The track that will be faded.</param>
         /// <param name="duration">The duration of the fade.</param>
-        public void FadeInMusic(AudioKor.Track track, float duration);
+        public void FadeInMusic(AudioCore.Track track, float duration);
 
         /// <summary>
         /// Set the music asset and fade in the track.
@@ -55,14 +55,14 @@ namespace AudioKorLib.Interfaces
         /// <param name="track">The track that will be faded.</param>
         /// <param name="duration">The duration of the fade.</param>
         /// <param name="musicName">The music asset to be played.</param>
-        public void FadeInMusic(AudioKor.Track track, float duration, string musicName);
+        public void FadeInMusic(AudioCore.Track track, float duration, string musicName);
 
         /// <summary>
         /// Fade out the track.
         /// </summary>
         /// <param name="track">The track that will be faded.</param>
         /// <param name="duration">The duration of the fade.</param>
-        public void FadeOutMusic(AudioKor.Track track, float duration);
+        public void FadeOutMusic(AudioCore.Track track, float duration);
 
         /// <summary>
         /// Fade out all available tracks.
@@ -74,7 +74,7 @@ namespace AudioKorLib.Interfaces
         /// Resumes one track.
         /// </summary>
         /// <param name="track">The track that will be resumed.</param>
-        public void ResumeMusic(AudioKor.Track track);
+        public void ResumeMusic(AudioCore.Track track);
 
         /// <summary>
         /// Plays a sound effect.

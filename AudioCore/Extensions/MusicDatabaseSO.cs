@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace AudioKorLib.Extensions
+namespace AudioCoreLib.Extensions
 {
     [System.Serializable]
     public class Music
     {
-        [Tooltip("Sets the name that will be used to access this audio clip when calling AudioKor.\nExample: MENU_MUSIC, FOREST_AMBIENCE..")]
+        [Tooltip("Sets the name that will be used to access this audio clip when calling AudioCore.\nExample: MENU_MUSIC, FOREST_AMBIENCE..")]
         public string musicName;
 
         [Tooltip("Audio clip. Yep.")]
@@ -35,7 +35,7 @@ namespace AudioKorLib.Extensions
     }
 
 
-    [CreateAssetMenu(fileName = "Music Database", menuName = "AudioKor Databases/Music Database", order = 1)]
+    [CreateAssetMenu(fileName = "Music Database", menuName = "AudioCore Databases/Music Database", order = 1)]
     public class MusicDatabaseSO : ScriptableObject
     {
         public Music[] musicDatabase;
@@ -51,7 +51,7 @@ namespace AudioKorLib.Extensions
                 }
             }
 
-            Debug.LogWarning("AudioKor: " + musicName + " could not be found in linked database.");
+            Debug.LogWarning("AudioCore: " + musicName + " could not be found in linked database.");
             return null;
         }
 

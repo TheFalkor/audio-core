@@ -1,4 +1,4 @@
-﻿namespace AudioKorLib.Enums
+﻿namespace AudioCoreLib.Enums
 {
     public enum AudioTrackState
     {

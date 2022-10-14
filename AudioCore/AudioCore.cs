@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using AudioKorLib.Extensions;
-using AudioKorLib.Interfaces;
-using AudioKorLib.Structures;
+using AudioCoreLib.Extensions;
+using AudioCoreLib.Interfaces;
+using AudioCoreLib.Structures;
 
 
-public sealed class AudioKor : MonoBehaviour, IAudioKor
+public sealed class AudioCore : MonoBehaviour, IAudioCore
 {
     [Header("Database References")]
     public MusicDatabaseSO musicDatabase;
@@ -33,14 +33,14 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     [Range(0, 8)]
     public int musicTrackCount = 1;
 
-    [Tooltip("Prevents AudioKor from being destroyed. Will destroyed duplicate AudioKors in new scenes.")]
+    [Tooltip("Prevents AudioCore from being destroyed. Will destroyed duplicates in new scenes.")]
     public bool dontDestroyOnLoad = false;
 
     [HideInInspector] private AudioTrack[] audioTracks;
     [HideInInspector] private AudioSource sfxSource;
 
     [HideInInspector] private bool initialized = false;
-    [HideInInspector] private static AudioKor instance;
+    [HideInInspector] private static AudioCore instance;
 
 
     private void Awake()
@@ -66,7 +66,7 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         audioTracks = new AudioTrack[musicTrackCount];
         if (musicTrackCount > 0)
         {
-            GameObject trackParent = new GameObject("AudioKor Tracks");
+            GameObject trackParent = new GameObject("AudioCore Tracks");
             trackParent.transform.parent = transform;
 
             for (int i = 0; i < audioTracks.Length; i++)
@@ -89,11 +89,11 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
             at.Tick(Time.deltaTime);
     }
 
-    public void SetMusic(string musicName, AudioKor.Track track)
+    public void SetMusic(string musicName, AudioCore.Track track)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
@@ -121,14 +121,14 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
             }
         }
 
-        Debug.LogWarning("AudioKor: No available Audio Track could be found. Current Audio Tracks: " + musicTrackCount);
+        Debug.LogWarning("AudioCore: No available Audio Track could be found. Current Audio Tracks: " + musicTrackCount);
     }
 
-    public void PlayMusic(string musicName, AudioKor.Track track)
+    public void PlayMusic(string musicName, AudioCore.Track track)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
@@ -148,11 +148,11 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         }
     }
 
-    public void PauseMusic(AudioKor.Track track)
+    public void PauseMusic(AudioCore.Track track)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
@@ -167,32 +167,32 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
         }
     }
 
-    public void ResumeMusic(AudioKor.Track track)
+    public void ResumeMusic(AudioCore.Track track)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
         audioTracks[(int)track].ResumeTrack();
     }
 
-    public void FadeInMusic(AudioKor.Track track, float duration)
+    public void FadeInMusic(AudioCore.Track track, float duration)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
         audioTracks[(int)track].FadeIn(duration);
     }
-    public void FadeInMusic(AudioKor.Track track, float duration, string musicName)
+    public void FadeInMusic(AudioCore.Track track, float duration, string musicName)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
@@ -203,11 +203,11 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
 
         audioTracks[(int)track].FadeIn(duration, music);
     }
-    public void FadeOutMusic(AudioKor.Track track, float duration)
+    public void FadeOutMusic(AudioCore.Track track, float duration)
     {
         if ((int)track >= musicTrackCount)
         {
-            Debug.LogWarning("AudioKor: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
+            Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
             return;
         }
 
@@ -235,7 +235,7 @@ public sealed class AudioKor : MonoBehaviour, IAudioKor
     {
         if (volumeScale < 0)
         {
-            Debug.LogWarning("AudioKor: Volume is out of range, attempting to scale volume by negative value.");
+            Debug.LogWarning("AudioCore: Volume is out of range, attempting to scale volume by negative value.");
             return;
         }
 

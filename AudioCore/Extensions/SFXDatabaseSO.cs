@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-namespace AudioKorLib.Extensions
+namespace AudioCoreLib.Extensions
 {
     [System.Serializable]
     public class SoundEffect
     {
-        [Tooltip("Sets the name that will be used to access this audio clip when calling AudioKor.\nExample: BULLET_SHOT, PLAYER_JUMP..")]
+        [Tooltip("Sets the name that will be used to access this audio clip when calling AudioCore.\nExample: BULLET_SHOT, PLAYER_JUMP..")]
         public string soundEffectName;
 
         [Tooltip("Audio clip.")]
@@ -29,7 +29,7 @@ namespace AudioKorLib.Extensions
     }
 
 
-    [CreateAssetMenu(fileName = "SFX Database", menuName = "AudioKor Databases/SFX Database", order = 1)]
+    [CreateAssetMenu(fileName = "SFX Database", menuName = "AudioCore Databases/SFX Database", order = 1)]
     public class SFXDatabaseSO : ScriptableObject
     {
         public SoundEffect[] soundEffectDatabase;
@@ -45,7 +45,7 @@ namespace AudioKorLib.Extensions
                 }
             }
 
-            Debug.LogWarning("AudioKor: " + soundEffectName + " could not be found in linked sfx database.");
+            Debug.LogWarning("AudioCore: " + soundEffectName + " could not be found in linked sfx database.");
             return null;
         }
 

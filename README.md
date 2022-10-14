@@ -1,4 +1,4 @@
-# AudioKor Audio Manager
+# AudioCore Audio Manager
 
 ## About
-AudioKor is a service for managing audio in UnityEngine. The repository includes all code to the implementation.
+AudioCore is a service for managing audio in Unity. The repository includes all code to the implementation.

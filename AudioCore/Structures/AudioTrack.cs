@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
-using AudioKorLib.Extensions;
-using AudioKorLib.Enums;
+using AudioCoreLib.Extensions;
+using AudioCoreLib.Enums;
 
-namespace AudioKorLib.Structures
+namespace AudioCoreLib.Structures
 {
     public class AudioTrack
     {
@@ -75,7 +75,7 @@ namespace AudioKorLib.Structures
         {
             if (duration < 0)
             {
-                Debug.LogWarning("AudioKor: Fade duration cannot be less than zero.");
+                Debug.LogWarning("AudioCore: Fade duration cannot be less than zero.");
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace AudioKorLib.Structures
                 SetMusic(music, true);
             else if (this.music == null)
             {
-                Debug.LogWarning("AudioKor: Attempting to fade in with no Music File selected.");
+                Debug.LogWarning("AudioCore: Attempting to fade in with no Music File selected.");
                 return;
             }
 
@@ -105,7 +105,7 @@ namespace AudioKorLib.Structures
         {
             if (duration < 0)
             {
-                Debug.LogWarning("AudioKor: Fade duration cannot be less than zero");
+                Debug.LogWarning("AudioCore: Fade duration cannot be less than zero");
                 return;
             }
 

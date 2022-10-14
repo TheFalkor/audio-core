@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AudioKorLib.Structures
+namespace AudioCoreLib.Structures
 {
     public class Settings
     {
