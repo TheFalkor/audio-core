@@ -33,7 +33,7 @@ namespace AudioCoreLib.Extensions
     public class SFXDatabaseSO : ScriptableObject
     {
         public SoundEffect[] soundEffectDatabase;
-        private int databaseLength = 0;
+        [HideInInspector] private int databaseLength = 0;
 
         public SoundEffect GetSoundEffect(string soundEffectName)
         {

@@ -33,8 +33,13 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     [Range(0, 8)]
     public int musicTrackCount = 1;
 
-    [Tooltip("Prevents AudioCore from being destroyed. Will destroyed duplicates in new scenes.")]
+    [Space]
+
+    [Tooltip("Prevents AudioCore from being destroyed when loading scenes.")]
     public bool dontDestroyOnLoad = false;
+
+    [Tooltip("Makes sure that this is the only instance of AudioCore in the scene.\nWill destroy all other instances.")]
+    public bool forceUniqueInstance = false;
 
     [HideInInspector] private AudioTrack[] audioTracks;
     [HideInInspector] private AudioSource sfxSource;
@@ -45,14 +50,14 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     private void Awake()
     {
-        if (instance)
+        if (instance && instance.forceUniqueInstance)
         {
-            if (instance.dontDestroyOnLoad)
-            {
-                Destroy(this);
-                return;
-            }
+            Destroy(this);
+            return;
         }
+
+        if (dontDestroyOnLoad)
+            DontDestroyOnLoad(gameObject);
 
         instance = this;
     }
