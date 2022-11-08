@@ -57,8 +57,11 @@ namespace AudioCoreLib.Extensions
 
         private void OnValidate()
         {
-            if (musicDatabase.Length > databaseLength)
-                musicDatabase[^1].Reset();
+            while (musicDatabase.Length > databaseLength)
+            {
+                musicDatabase[databaseLength].Reset();
+                databaseLength++;
+            }
 
             databaseLength = musicDatabase.Length;
         }

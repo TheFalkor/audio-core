@@ -51,8 +51,11 @@ namespace AudioCoreLib.Extensions
 
         private void OnValidate()
         {
-            if (soundEffectDatabase.Length > databaseLength)
-                soundEffectDatabase[^1].Reset();
+            while (soundEffectDatabase.Length >  databaseLength)
+            {
+                soundEffectDatabase[databaseLength].Reset();
+                databaseLength++;
+            }
 
             databaseLength = soundEffectDatabase.Length;
         }
