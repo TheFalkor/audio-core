@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using AudioCoreLib.Structures;
 
 namespace AudioCoreLib.Extensions
 {
@@ -8,8 +9,10 @@ namespace AudioCoreLib.Extensions
         [Tooltip("Sets the name that will be used to access this audio clip when calling AudioCore.\nExample: BULLET_SHOT, PLAYER_JUMP..")]
         public string soundEffectName;
 
+        [Space]
+
         [Tooltip("Audio clip.")]
-        public AudioClip audioClip;
+        public AudioPackage audio;
 
         [Space]
 

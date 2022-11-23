@@ -6,11 +6,18 @@ using AudioCoreLib.Interfaces;
 using AudioCoreLib.Structures;
 
 
+/// <summary>
+/// AudioCore is an Audio Manager made by Henrik Nilsson.<br></br>https://www.github.com/TheFalkor
+/// </summary>
 public sealed class AudioCore : MonoBehaviour, IAudioCore
 {
     [Header("Database References")]
     public MusicDatabaseSO musicDatabase;
     public SFXDatabaseSO sfxDatabase;
+    
+    [Header("Game Settings")]
+    [Tooltip("This music from the database will be played when the game starts.")]
+    [SerializeField] private string playMusicOnAwake;
 
     [Header("Audio Settings")]
     [Tooltip("Sets the overall volume of all audio components")]
@@ -25,7 +32,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     [Tooltip("Sets the overall volume of all sound effects.")]
     [Range(0f, 1f)]
-    public float sfxVolume = 1;
+    public float SFXVolume = 1;
     [HideInInspector] private float currentSFXVolume;
 
     [Header("Application Settings")]
@@ -58,15 +65,12 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         if (dontDestroyOnLoad)
             DontDestroyOnLoad(gameObject);
-
+        
         instance = this;
-    }
 
-    private void Start()
-    {
         currentMasterVolume = masterVolume;
         currentMusicVolume = musicVolume;
-        currentSFXVolume = sfxVolume;
+        currentSFXVolume = SFXVolume;
 
         audioTracks = new AudioTrack[musicTrackCount];
         if (musicTrackCount > 0)
@@ -86,6 +90,9 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         sfxSource = gameObject.AddComponent<AudioSource>();
 
         initialized = true;
+
+        if (playMusicOnAwake != "")
+            PlayMusic(playMusicOnAwake);
     }
 
     private void Update()
@@ -96,6 +103,18 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     public void SetMusic(string musicName, AudioCore.Track track)
     {
+        if (!initialized)
+        {
+            Debug.LogWarning("AudioCore: SetMusic() was called before AudioCore finished preparing.");
+            return;
+        }
+
+        if (musicDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            return;
+        }
+
         if ((int)track >= musicTrackCount)
         {
             Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
@@ -112,6 +131,12 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     public void PlayMusic(string musicName)
     {
+        if (musicDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            return;
+        }
+
         Music music = musicDatabase.GetMusic(musicName);
 
         if (music == null)
@@ -126,11 +151,23 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             }
         }
 
-        Debug.LogWarning("AudioCore: No available Audio Track could be found. Current Audio Tracks: " + musicTrackCount);
+        Debug.LogWarning("AudioCore: No available Audio Track could be found. Current Audio Tracks: " + audioTracks.Length);
     }
 
     public void PlayMusic(string musicName, AudioCore.Track track)
     {
+        if (!initialized)
+        {
+            Debug.LogWarning("AudioCore: PlayMusic() was called before AudioCore finished preparing.");
+            return;
+        }
+
+        if (musicDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            return;
+        }
+
         if ((int)track >= musicTrackCount)
         {
             Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
@@ -195,6 +232,12 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     }
     public void FadeInMusic(AudioCore.Track track, float duration, string musicName)
     {
+        if (musicDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            return;
+        }
+
         if ((int)track >= musicTrackCount)
         {
             Debug.LogWarning("AudioCore: Track " + track.ToString() + " is out of range, increase musicTrackCount in the settings");
@@ -227,17 +270,29 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     public void PlaySFX(string soundEffectName)
     {
+        if (sfxDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No SFX Database attached to Audio Core.");
+            return;
+        }
+
         SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
 
         if (soundEffect == null)
             return;
 
         sfxSource.pitch = soundEffect.pitch;
-        sfxSource.PlayOneShot(soundEffect.audioClip, soundEffect.volume * masterVolume * sfxVolume);
+        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume);
     }
 
     public void PlaySFX(string soundEffectName, float volumeScale)
     {
+        if (sfxDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No SFX Database attached to Audio Core.");
+            return;
+        }
+
         if (volumeScale < 0)
         {
             Debug.LogWarning("AudioCore: Volume is out of range, attempting to scale volume by negative value.");
@@ -250,7 +305,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             return;
 
         sfxSource.pitch = soundEffect.pitch;
-        sfxSource.PlayOneShot(soundEffect.audioClip, soundEffect.volume * masterVolume * sfxVolume * volumeScale);
+        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume * volumeScale);
     }
 
     public void SetMasterVolume(float masterVolume)
@@ -261,7 +316,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         foreach (AudioTrack at in audioTracks)
             at.SetVolume(masterVolume * musicVolume);
 
-        sfxSource.volume = masterVolume * sfxVolume;
+        sfxSource.volume = masterVolume * SFXVolume;
     }
 
     public void SetMusicVolume(float musicVolume)
@@ -275,7 +330,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     public void SetSFXVolume(float sfxVolume)
     {
-        this.sfxVolume = sfxVolume;
+        this.SFXVolume = sfxVolume;
         currentSFXVolume = sfxVolume;
     }
     
@@ -290,8 +345,8 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         if (currentMusicVolume != musicVolume)
             SetMusicVolume(musicVolume);
 
-        if (currentSFXVolume != sfxVolume)
-            SetSFXVolume(sfxVolume);
+        if (currentSFXVolume != SFXVolume)
+            SetSFXVolume(SFXVolume);
     }
 
     /// <summary>

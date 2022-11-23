@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using AudioCoreLib.Extensions;
 using AudioCoreLib.Enums;
 
