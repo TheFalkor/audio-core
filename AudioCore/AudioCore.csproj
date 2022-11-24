@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>D:\Unity\Unity\Projects\AudioCore\AudioCore\AudioCore.xml</DocumentationFile>
+    <DocumentationFile>..\build\netcoreapp3.1\AudioCore.xml</DocumentationFile>
+    <OutputPath>..\build\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +15,10 @@
 
   <ItemGroup>
     <Reference Include="UnityEditor">
-      <HintPath>..\..\..\2020.3.29f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
+      <HintPath>..\vendor\UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\2020.3.29f1\Editor\Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\vendor\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 

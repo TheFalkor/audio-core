@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>..\build\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AudioCore\AudioCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnityEditor">
+      <HintPath>..\vendor\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\vendor\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

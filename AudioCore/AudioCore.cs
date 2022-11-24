@@ -17,7 +17,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     
     [Header("Game Settings")]
     [Tooltip("This music from the database will be played when the game starts.")]
-    [SerializeField] private string playMusicOnAwake;
+    [SerializeField] private string playOnAwake = "";
 
     [Header("Audio Settings")]
     [Tooltip("Sets the overall volume of all audio components")]
@@ -91,8 +91,8 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         initialized = true;
 
-        if (playMusicOnAwake != "")
-            PlayMusic(playMusicOnAwake);
+        if (playOnAwake != "")
+            PlayMusic(playOnAwake);
     }
 
     private void Update()
