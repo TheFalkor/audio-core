@@ -11,7 +11,7 @@ namespace AudioCoreLib.Extensions
 
         [Space]
 
-        [Tooltip("Audio clip.")]
+        [Tooltip("Sets what sound effect to be played.")]
         public AudioPackage audio;
 
         [Space]
@@ -23,6 +23,11 @@ namespace AudioCoreLib.Extensions
         [Tooltip("Sets the pitch of the sound effect to make it play slower or faster.")]
         [Range(-3f, 3f)]
         public float pitch;
+
+        [Space]
+
+        [Tooltip("Modifiers that will modify the sound effect.")]
+        public AudioModifier[] modifiers;
 
         public void Reset()
         {

@@ -277,11 +277,15 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         }
 
         SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
-
+        
         if (soundEffect == null)
             return;
 
         sfxSource.pitch = soundEffect.pitch;
+
+        foreach (AudioModifier modifier in soundEffect.modifiers)
+            modifier.TriggerModifier(sfxSource);
+
         sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume);
     }
 
@@ -305,6 +309,10 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             return;
 
         sfxSource.pitch = soundEffect.pitch;
+
+        foreach (AudioModifier modifier in soundEffect.modifiers)
+            modifier.TriggerModifier(sfxSource);
+
         sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume * volumeScale);
     }
 

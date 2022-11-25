@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using AudioCoreLib.Structures;
 using AudioCoreLib.Enums;
-using UnityEditor;
-
 
 namespace AudioCoreLib.Editors
 {
     [CustomPropertyDrawer(typeof(AudioPackage))]
-    class AudioPackageEditor : PropertyDrawer
+    public class AudioPackageEditor : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -54,7 +53,7 @@ namespace AudioCoreLib.Editors
                 }
             }
 
-            return (20 - EditorGUIUtility.singleLineHeight) + (EditorGUIUtility.singleLineHeight * 2);
+            return EditorGUIUtility.singleLineHeight * 2;
         }
     }
 }
