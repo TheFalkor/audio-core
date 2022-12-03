@@ -39,7 +39,7 @@ namespace AudioCoreLib.Extensions
     public class MusicDatabaseSO : ScriptableObject
     {
         public Music[] musicDatabase;
-        [HideInInspector] private int databaseLength = 0;
+        [HideInInspector] public int databaseLength = 0;
 
         public Music GetMusic(string musicName)
         {
