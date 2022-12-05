@@ -32,8 +32,8 @@ namespace AudioCoreLib.Editors
                         firstRect.y += 20f;
                         secondRect.y += 20f;
                     }
-                    minimumProperty.floatValue = EditorGUI.Slider(firstRect, new GUIContent(minimumProperty.displayName), Mathf.Clamp(minimumProperty.floatValue, 0.1f, 1f), 0.1f, 1f);
-                    maximumProperty.floatValue = EditorGUI.Slider(secondRect, new GUIContent(maximumProperty.displayName), Mathf.Clamp(maximumProperty.floatValue, 0.1f, 1f), 0.1f, 1f);
+                    minimumProperty.floatValue = EditorGUI.Slider(firstRect, new GUIContent(minimumProperty.displayName), Mathf.Clamp(minimumProperty.floatValue, 0.1f, 3f), 0.1f, 3f);
+                    maximumProperty.floatValue = EditorGUI.Slider(secondRect, new GUIContent(maximumProperty.displayName), Mathf.Clamp(maximumProperty.floatValue, 0.1f, 3f), 0.1f, 3f);
                     break;
             }
 
