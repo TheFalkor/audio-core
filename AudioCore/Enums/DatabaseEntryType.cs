@@ -2,8 +2,8 @@
 {
     public enum DatabaseEntryType
     {
-        SINGLE,
-        CYCLE,
-        RANDOMIZE
+        Single_Clip,
+        Cycle_Clips,
+        Randomize_Clip,
     }
 }

@@ -2,9 +2,9 @@
 {
     public enum AudioTrackState
     {
-        RESTING,
-        PLAYING,
-        PAUSED,
-        FADING,
+        Resting,
+        Playing,
+        Paused,
+        Fading,
     }
 }

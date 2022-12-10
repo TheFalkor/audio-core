@@ -2,6 +2,7 @@
 using UnityEditor;
 using AudioCoreLib.Structures;
 using AudioCoreLib.Enums;
+using AudioCoreLib.Common;
 
 namespace AudioCoreLib.Editors
 {
@@ -21,11 +22,11 @@ namespace AudioCoreLib.Editors
             SerializedProperty maximumProperty = property.FindPropertyRelative("maximumValue");
 
 
-            enumProperty.intValue = EditorGUI.Popup(enumRect, enumProperty.displayName, enumProperty.intValue, enumProperty.enumNames);
+            enumProperty.intValue = EditorGUI.Popup(enumRect, enumProperty.displayName, enumProperty.intValue, Helpers.EnumToStringArray<AudioModifierType>());
 
             switch ((AudioModifierType)enumProperty.intValue)
             {
-                case AudioModifierType.RANDOMIZE_PITCH:
+                case AudioModifierType.Randomize_Pitch:
                     if (minimumProperty.floatValue > maximumProperty.floatValue)
                     {
                         EditorGUI.HelpBox(firstRect, " Maximum value is less than minimum value!", MessageType.Warning);
@@ -46,7 +47,7 @@ namespace AudioCoreLib.Editors
 
             switch ((AudioModifierType)enumProperty.intValue)
             {
-                case AudioModifierType.RANDOMIZE_PITCH:
+                case AudioModifierType.Randomize_Pitch:
                     SerializedProperty minimumProperty = property.FindPropertyRelative("minimumValue");
                     SerializedProperty maximumProperty = property.FindPropertyRelative("maximumValue");
                     if (minimumProperty.floatValue > maximumProperty.floatValue)

@@ -14,10 +14,10 @@ namespace AudioCoreLib.Structures
         {
             switch (modifierType)
             {
-                case AudioModifierType.RANDOMIZE_PITCH:
+                case AudioModifierType.Randomize_Pitch:
                     if (minimumValue > maximumValue)
                     {
-                        Debug.LogWarning("AudioCore: (Randomized_Pitch): Maximum value is less than minimum value.");
+                        Debug.LogWarning("AudioCore: (Randomized Pitch): Maximum value is less than minimum value.");
                         return;
                     }
                     sfxSource.pitch = Random.Range(minimumValue, maximumValue);

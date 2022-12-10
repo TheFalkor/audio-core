@@ -2,6 +2,7 @@
 using UnityEditor;
 using AudioCoreLib.Structures;
 using AudioCoreLib.Enums;
+using AudioCoreLib.Common;
 
 namespace AudioCoreLib.Editors
 {
@@ -20,16 +21,16 @@ namespace AudioCoreLib.Editors
             SerializedProperty clipListProperty = property.FindPropertyRelative("audioClips");
 
 
-            enumProperty.intValue = EditorGUI.Popup(enumRect, enumProperty.displayName, enumProperty.intValue, enumProperty.enumNames);
+            enumProperty.intValue = EditorGUI.Popup(enumRect, enumProperty.displayName, enumProperty.intValue, Helpers.EnumToStringArray<DatabaseEntryType>());
 
             switch ((DatabaseEntryType)enumProperty.intValue)
             {
-                case DatabaseEntryType.SINGLE:
+                case DatabaseEntryType.Single_Clip:
                     EditorGUI.PropertyField(audioRect, clipProperty);
                     break;
 
-                case DatabaseEntryType.CYCLE:
-                case DatabaseEntryType.RANDOMIZE:
+                case DatabaseEntryType.Cycle_Clips:
+                case DatabaseEntryType.Randomize_Clip:
                     EditorGUI.PropertyField(audioRect, clipListProperty);
                     break;
             }

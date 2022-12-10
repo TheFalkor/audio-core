@@ -10,7 +10,7 @@ namespace AudioCoreLib.Structures
         private readonly AudioSource source;
         private float volume;
 
-        private AudioTrackState state = AudioTrackState.RESTING;
+        private AudioTrackState state = AudioTrackState.Resting;
         private float fadeDuration = 0;
         private float currentFadeDuration = 0;
         private float targetFadeVolume = 0;
@@ -24,7 +24,7 @@ namespace AudioCoreLib.Structures
 
         public void Tick(float deltaTime)
         {
-            if (state != AudioTrackState.FADING)
+            if (state != AudioTrackState.Fading)
                 return;
 
             currentFadeDuration += deltaTime;
@@ -35,11 +35,11 @@ namespace AudioCoreLib.Structures
 
                 if (targetFadeVolume == 0)
                 {
-                    state = AudioTrackState.RESTING;
+                    state = AudioTrackState.Resting;
                     source.Stop();
                 }
                 else
-                    state = AudioTrackState.PLAYING;
+                    state = AudioTrackState.Playing;
             }
 
             float fadedVolume = startFadeVolume + (targetFadeVolume - startFadeVolume) * (currentFadeDuration / fadeDuration);
@@ -50,13 +50,13 @@ namespace AudioCoreLib.Structures
         {
             SetMusic(music);
             source.Play();
-            state = AudioTrackState.PLAYING;
+            state = AudioTrackState.Playing;
         }
 
         public void PauseTrack()
         {
             if (source.isPlaying)
-                state = AudioTrackState.PAUSED;
+                state = AudioTrackState.Paused;
 
             source.Pause();
         }
@@ -67,7 +67,7 @@ namespace AudioCoreLib.Structures
                 return;
 
             source.UnPause();
-            state = AudioTrackState.PLAYING;
+            state = AudioTrackState.Playing;
         }
 
         public void FadeIn(float duration, Music music = null)
@@ -92,7 +92,7 @@ namespace AudioCoreLib.Structures
             if (!source.isPlaying)
                 source.Play();
 
-            state = AudioTrackState.FADING;
+            state = AudioTrackState.Fading;
             fadeDuration = duration;
             currentFadeDuration = 0;
 
@@ -111,7 +111,7 @@ namespace AudioCoreLib.Structures
             if (!source.isPlaying)
                 return;
 
-            state = AudioTrackState.FADING;
+            state = AudioTrackState.Fading;
             fadeDuration = duration;
             currentFadeDuration = 0;
 
@@ -124,7 +124,7 @@ namespace AudioCoreLib.Structures
             this.volume = volume;
             float sourceVolume = music != null ? music.volume * volume : volume;
 
-            if (state != AudioTrackState.FADING)
+            if (state != AudioTrackState.Fading)
                 source.volume = sourceVolume;
             else if (targetFadeVolume > 0)
                 targetFadeVolume = sourceVolume;

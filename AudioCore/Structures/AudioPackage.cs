@@ -18,13 +18,13 @@ namespace AudioCoreLib.Structures
         {
             switch (audioType)
             {
-                case DatabaseEntryType.SINGLE:
+                case DatabaseEntryType.Single_Clip:
                     return audioClip;
 
-                case DatabaseEntryType.CYCLE:
+                case DatabaseEntryType.Cycle_Clips:
                     return audioClips[(index++) % audioClips.Count];
 
-                case DatabaseEntryType.RANDOMIZE:
+                case DatabaseEntryType.Randomize_Clip:
                     return audioClips[Random.Range(0, audioClips.Count)];
             }
 

@@ -2,6 +2,7 @@
 {
     public enum AudioModifierType
     {
-        RANDOMIZE_PITCH,
+        Randomize_Pitch,
+        Randomize_Volume,
     }
 }
