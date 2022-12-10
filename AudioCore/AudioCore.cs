@@ -91,8 +91,8 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         initialized = true;
 
-        if (playOnAwake != "")
-            PlayMusic(playOnAwake);
+        if (playOnAwake != "" && musicTrackCount > 0)
+            FadeInMusic(Track.A, 2f, playOnAwake);
     }
 
     private void Update()
@@ -111,7 +111,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         if (musicDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No Music Database attached to AudioCore.");
             return;
         }
 
@@ -133,7 +133,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     {
         if (musicDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No Music Database attached to AudioCore.");
             return;
         }
 
@@ -164,7 +164,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         if (musicDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No Music Database attached to AudioCore.");
             return;
         }
 
@@ -234,7 +234,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     {
         if (musicDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No Music Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No Music Database attached to AudioCore.");
             return;
         }
 
@@ -272,7 +272,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     {
         if (sfxDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No SFX Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No SFX Database attached to AudioCore.");
             return;
         }
 
@@ -282,18 +282,19 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             return;
 
         sfxSource.pitch = soundEffect.pitch;
+        sfxSource.volume = soundEffect.volume;
 
         foreach (AudioModifier modifier in soundEffect.modifiers)
             modifier.TriggerModifier(sfxSource);
 
-        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume);
+        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), sfxSource.volume * masterVolume * SFXVolume);
     }
 
     public void PlaySFX(string soundEffectName, float volumeScale)
     {
         if (sfxDatabase == null)
         {
-            Debug.LogWarning("AudioCore: No SFX Database attached to Audio Core.");
+            Debug.LogWarning("AudioCore: No SFX Database attached to AudioCore.");
             return;
         }
 
@@ -309,11 +310,12 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             return;
 
         sfxSource.pitch = soundEffect.pitch;
+        sfxSource.volume = soundEffect.volume;
 
         foreach (AudioModifier modifier in soundEffect.modifiers)
             modifier.TriggerModifier(sfxSource);
 
-        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), soundEffect.volume * masterVolume * SFXVolume * volumeScale);
+        sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), sfxSource.volume * masterVolume * SFXVolume * volumeScale);
     }
 
     public void SetMasterVolume(float masterVolume)

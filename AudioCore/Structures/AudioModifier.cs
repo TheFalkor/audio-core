@@ -22,6 +22,15 @@ namespace AudioCoreLib.Structures
                     }
                     sfxSource.pitch = Random.Range(minimumValue, maximumValue);
                     break;
+
+                case AudioModifierType.Randomize_Volume:
+                    if (minimumValue > maximumValue)
+                    {
+                        Debug.LogWarning("AudioCore: (Randomized Volume): Maximum value is less than minimum value.");
+                        return;
+                    }
+                    sfxSource.volume = Random.Range(minimumValue, maximumValue);
+                    break;
             }
         }
     }

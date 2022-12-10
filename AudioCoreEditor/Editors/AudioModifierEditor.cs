@@ -36,6 +36,17 @@ namespace AudioCoreLib.Editors
                     minimumProperty.floatValue = EditorGUI.Slider(firstRect, new GUIContent(minimumProperty.displayName), Mathf.Clamp(minimumProperty.floatValue, 0.1f, 3f), 0.1f, 3f);
                     maximumProperty.floatValue = EditorGUI.Slider(secondRect, new GUIContent(maximumProperty.displayName), Mathf.Clamp(maximumProperty.floatValue, 0.1f, 3f), 0.1f, 3f);
                     break;
+
+                case AudioModifierType.Randomize_Volume:
+                    if (minimumProperty.floatValue > maximumProperty.floatValue)
+                    {
+                        EditorGUI.HelpBox(firstRect, " Maximum value is less than minimum value!", MessageType.Warning);
+                        firstRect.y += 20f;
+                        secondRect.y += 20f;
+                    }
+                    minimumProperty.floatValue = EditorGUI.Slider(firstRect, new GUIContent(minimumProperty.displayName), Mathf.Clamp(minimumProperty.floatValue, 0f, 1f), 0f, 1f);
+                    maximumProperty.floatValue = EditorGUI.Slider(secondRect, new GUIContent(maximumProperty.displayName), Mathf.Clamp(maximumProperty.floatValue, 0f, 1f), 0f, 1f);
+                    break;
             }
 
             EditorGUI.EndProperty();
@@ -48,6 +59,7 @@ namespace AudioCoreLib.Editors
             switch ((AudioModifierType)enumProperty.intValue)
             {
                 case AudioModifierType.Randomize_Pitch:
+                case AudioModifierType.Randomize_Volume:
                     SerializedProperty minimumProperty = property.FindPropertyRelative("minimumValue");
                     SerializedProperty maximumProperty = property.FindPropertyRelative("maximumValue");
                     if (minimumProperty.floatValue > maximumProperty.floatValue)
