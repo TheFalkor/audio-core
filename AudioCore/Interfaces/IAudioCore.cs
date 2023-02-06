@@ -90,6 +90,21 @@ namespace AudioCoreLib.Interfaces
         public void PlaySFX(string soundEffectName, float volumeScale);
 
         /// <summary>
+        /// Plays a directional sound effect from provided position.
+        /// </summary>
+        /// <param name="soundEffectName">The sound effect name to be played.</param>
+        /// <param name="position">The position of the sound origin.</param>
+        public void PlaySFX(string soundEffectName, Vector3 position);
+
+        /// <summary>
+        /// Plays a directional sound effect from provided position with additional volume scale.
+        /// </summary>
+        /// <param name="soundEffectName">The sound effect name to be played.</param>
+        /// <param name="position">The position of the sound origin.</param>
+        /// <param name="volumeScale">The volume to scale the SFX by.</param>
+        public void PlaySFX(string soundEffectName, Vector3 position, float volumeScale);
+
+        /// <summary>
         /// Sets the general volume of all audio components.
         /// </summary>
         /// <param name="masterVolume">The general volume for all components.</param>

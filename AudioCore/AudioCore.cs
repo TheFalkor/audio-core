@@ -50,6 +50,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     [HideInInspector] private AudioTrack[] audioTracks;
     [HideInInspector] private AudioSource sfxSource;
+    [HideInInspector] private AudioSource directionalSfxSource;
 
     [HideInInspector] private bool initialized = false;
     [HideInInspector] private static AudioCore instance;
@@ -88,6 +89,9 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         }
 
         sfxSource = gameObject.AddComponent<AudioSource>();
+        directionalSfxSource = new GameObject("AudioCore Directional Source").AddComponent<AudioSource>();
+        directionalSfxSource.transform.parent = transform;
+        directionalSfxSource.spatialBlend = 1;
 
         initialized = true;
 
@@ -318,6 +322,58 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
         sfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), sfxSource.volume * masterVolume * SFXVolume * volumeScale);
     }
 
+    public void PlaySFX(string soundEffectName, Vector3 position)
+    {
+        if (sfxDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No SFX Database attached to AudioCore.");
+            return;
+        }
+
+        SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
+
+        if (soundEffect == null)
+            return;
+
+        directionalSfxSource.transform.position = position;
+        directionalSfxSource.pitch = soundEffect.pitch;
+        directionalSfxSource.volume = soundEffect.volume;
+
+        foreach (AudioModifier modifier in soundEffect.modifiers)
+            modifier.TriggerModifier(directionalSfxSource);
+
+        directionalSfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), directionalSfxSource.volume * masterVolume * SFXVolume);
+    }
+
+    public void PlaySFX(string soundEffectName, Vector3 position, float volumeScale)
+    {
+        if (sfxDatabase == null)
+        {
+            Debug.LogWarning("AudioCore: No SFX Database attached to AudioCore.");
+            return;
+        }
+
+        if (volumeScale < 0)
+        {
+            Debug.LogWarning("AudioCore: Volume is out of range, attempting to scale volume by negative value.");
+            return;
+        }
+
+        SoundEffect soundEffect = sfxDatabase.GetSoundEffect(soundEffectName);
+
+        if (soundEffect == null)
+            return;
+
+        directionalSfxSource.transform.position = position;
+        directionalSfxSource.pitch = soundEffect.pitch;
+        directionalSfxSource.volume = soundEffect.volume;
+
+        foreach (AudioModifier modifier in soundEffect.modifiers)
+            modifier.TriggerModifier(directionalSfxSource);
+
+        directionalSfxSource.PlayOneShot(soundEffect.audio.GetAudioClip(), directionalSfxSource.volume * masterVolume * SFXVolume * volumeScale);
+    }
+
     public void SetMasterVolume(float masterVolume)
     {
         this.masterVolume = masterVolume;
@@ -327,6 +383,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             at.SetVolume(masterVolume * musicVolume);
 
         sfxSource.volume = masterVolume * SFXVolume;
+        directionalSfxSource.volume = masterVolume * SFXVolume;
     }
 
     public void SetMusicVolume(float musicVolume)
@@ -340,7 +397,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
     public void SetSFXVolume(float sfxVolume)
     {
-        this.SFXVolume = sfxVolume;
+        SFXVolume = sfxVolume;
         currentSFXVolume = sfxVolume;
     }
     
