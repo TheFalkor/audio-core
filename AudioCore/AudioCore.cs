@@ -7,10 +7,12 @@ using AudioCoreLib.Structures;
 
 
 /// <summary>
-/// AudioCore is an Audio Manager made by Henrik Nilsson.<br></br>https://www.github.com/TheFalkor
+/// AudioCore is an Audio Manager made by Henrik Nilsson.<br></br>https://www.github.com/TheFalkor/audio-core
 /// </summary>
 public sealed class AudioCore : MonoBehaviour, IAudioCore
 {
+    public AudioTrack.OnTrackFinishedDelegate OnTrackFinished;
+
     [Header("Database References")]
     public MusicDatabaseSO musicDatabase;
     public SFXDatabaseSO sfxDatabase;
@@ -82,9 +84,11 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             for (int i = 0; i < audioTracks.Length; i++)
             {
                 AudioSource source = trackParent.AddComponent<AudioSource>();
-                audioTracks[i] = new AudioTrack(source);
+                audioTracks[i] = new AudioTrack(source, (Track)i);
 
                 audioTracks[i].SetVolume(masterVolume * musicVolume);
+
+                audioTracks[i].OnTrackFinished += (track, isLooping) => { OnTrackFinished?.Invoke(track, isLooping); };
             }
         }
 
@@ -102,7 +106,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
     private void Update()
     {
         foreach (AudioTrack at in audioTracks)
-            at.Tick(Time.deltaTime);
+            at.Update(Time.deltaTime);
     }
 
     public void SetMusic(string musicName, AudioCore.Track track)
@@ -234,6 +238,7 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         audioTracks[(int)track].FadeIn(duration);
     }
+
     public void FadeInMusic(AudioCore.Track track, float duration, string musicName)
     {
         if (musicDatabase == null)
@@ -255,7 +260,8 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
 
         audioTracks[(int)track].FadeIn(duration, music);
     }
-    public void FadeOutMusic(AudioCore.Track track, float duration)
+
+    public void FadeOutMusic(AudioCore.Track track, float duration, bool stopOnComplete = true)
     {
         if ((int)track >= musicTrackCount)
         {
@@ -263,13 +269,13 @@ public sealed class AudioCore : MonoBehaviour, IAudioCore
             return;
         }
 
-        audioTracks[(int)track].FadeOut(duration);
+        audioTracks[(int)track].FadeOut(duration, stopOnComplete);
     }
 
-    public void FadeOutAll(float duration)
+    public void FadeOutAll(float duration, bool stopOnComplete = true)
     {
         foreach (AudioTrack at in audioTracks)
-            at.FadeOut(duration);
+            at.FadeOut(duration, stopOnComplete);
     }
 
     public void PlaySFX(string soundEffectName)

@@ -43,6 +43,12 @@ namespace AudioCoreLib.Interfaces
         public void ResumeMusic();
 
         /// <summary>
+        /// Resumes one track.
+        /// </summary>
+        /// <param name="track">The track that will be resumed.</param>
+        public void ResumeMusic(AudioCore.Track track);
+
+        /// <summary>
         /// Fade in the track.
         /// </summary>
         /// <param name="track">The track that will be faded.</param>
@@ -62,19 +68,15 @@ namespace AudioCoreLib.Interfaces
         /// </summary>
         /// <param name="track">The track that will be faded.</param>
         /// <param name="duration">The duration of the fade.</param>
-        public void FadeOutMusic(AudioCore.Track track, float duration);
+        /// <param name="stopOnComplete">Stops the audio player on fade completion.</param>
+        public void FadeOutMusic(AudioCore.Track track, float duration, bool stopOnComplete);
 
         /// <summary>
         /// Fade out all available tracks.
         /// </summary>
         /// <param name="duration">The duration of the fade.</param>
-        public void FadeOutAll(float duration);
-
-        /// <summary>
-        /// Resumes one track.
-        /// </summary>
-        /// <param name="track">The track that will be resumed.</param>
-        public void ResumeMusic(AudioCore.Track track);
+        /// <param name="stopOnComplete">Stops the audio player on fade completion.</param>
+        public void FadeOutAll(float duration, bool stopOnComplete);
 
         /// <summary>
         /// Plays a sound effect.

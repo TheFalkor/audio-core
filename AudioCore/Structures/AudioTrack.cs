@@ -6,8 +6,12 @@ namespace AudioCoreLib.Structures
 {
     public class AudioTrack
     {
+        public OnTrackFinishedDelegate OnTrackFinished;
+        public delegate void OnTrackFinishedDelegate(AudioCore.Track track, bool isLooping);
+
         private Music music;
         private readonly AudioSource source;
+        private AudioCore.Track track;
         private float volume;
 
         private AudioTrackState state = AudioTrackState.Resting;
@@ -15,35 +19,53 @@ namespace AudioCoreLib.Structures
         private float currentFadeDuration = 0;
         private float targetFadeVolume = 0;
         private float startFadeVolume = 0;
+        private bool stopOnComplete = true;
+
+        private float previousSourceTime = -1;
 
 
-        public AudioTrack(AudioSource source)
+        public AudioTrack(AudioSource source, AudioCore.Track track)
         {
             this.source = source;
+            this.track = track;
         }
 
-        public void Tick(float deltaTime)
+        public void Update(float deltaTime)
         {
-            if (state != AudioTrackState.Fading)
-                return;
-
-            currentFadeDuration += deltaTime;
-
-            if (currentFadeDuration >= fadeDuration)
+            if (state == AudioTrackState.Playing)
             {
-                currentFadeDuration = fadeDuration;
-
-                if (targetFadeVolume == 0)
+                if (previousSourceTime > source.time)
+                    OnTrackFinished?.Invoke(track, source.loop);
+                else if (source.isPlaying == false)
                 {
                     state = AudioTrackState.Resting;
-                    source.Stop();
+                    OnTrackFinished?.Invoke(track, false);
                 }
-                else
-                    state = AudioTrackState.Playing;
-            }
 
-            float fadedVolume = startFadeVolume + (targetFadeVolume - startFadeVolume) * (currentFadeDuration / fadeDuration);
-            source.volume = fadedVolume;
+                previousSourceTime = source.time;
+            }
+            else if (state == AudioTrackState.Fading)
+            {
+                currentFadeDuration += deltaTime;
+
+                if (currentFadeDuration >= fadeDuration)
+                {
+                    currentFadeDuration = fadeDuration;
+
+                    if (targetFadeVolume == 0)
+                    {
+                        state = AudioTrackState.Resting;
+
+                        if (stopOnComplete)
+                            source.Stop();
+                    }
+                    else
+                        state = AudioTrackState.Playing;
+                }
+
+                float fadedVolume = startFadeVolume + (targetFadeVolume - startFadeVolume) * (currentFadeDuration / fadeDuration);
+                source.volume = fadedVolume;
+            }
         }
 
         public void Play(Music music)
@@ -65,6 +87,8 @@ namespace AudioCoreLib.Structures
         {
             if (music == null)
                 return;
+
+            previousSourceTime = -1;
 
             source.UnPause();
             state = AudioTrackState.Playing;
@@ -90,7 +114,10 @@ namespace AudioCoreLib.Structures
             }
 
             if (!source.isPlaying)
+            {
+                previousSourceTime = -1;
                 source.Play();
+            }
 
             state = AudioTrackState.Fading;
             fadeDuration = duration;
@@ -100,7 +127,7 @@ namespace AudioCoreLib.Structures
             targetFadeVolume = this.music.volume * volume;
         }
 
-        public void FadeOut(float duration)
+        public void FadeOut(float duration, bool stopOnComplete)
         {
             if (duration < 0)
             {
@@ -117,6 +144,8 @@ namespace AudioCoreLib.Structures
 
             startFadeVolume = source.volume;
             targetFadeVolume = 0;
+
+            this.stopOnComplete = stopOnComplete;
         }
 
         public void SetVolume(float volume)
@@ -141,6 +170,8 @@ namespace AudioCoreLib.Structures
             source.pitch = music.pitch;
             source.loop = music.loop;
             source.clip = music.audioClip;
+
+            previousSourceTime = -1;
 
             if (!ignoreVolume)
                 source.volume = music.volume * volume;
